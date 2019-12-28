@@ -3,14 +3,12 @@ EXE=./bin/kaleid.out
 FLG=-g -Wall -o
 
 # Source files
-SRC_MAIN=./src/main.cpp
-
-SRC_ALL=$(SRC_MAIN)
+SRC= ./src/*.cpp
 
 .phony: clean
 
 all: $(SRC_ALL)
-	$(CMP) $(FLG) $(EXE) $(SRC_ALL)
+	$(CMP) $(FLG) $(EXE) $(SRC)
 
 clean:
 	rm ./bin/*.out
