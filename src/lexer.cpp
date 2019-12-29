@@ -33,5 +33,18 @@ int getToken() {
 			return tok_extern;
 	}
 
+	// Digit regex is [0-9.]+
+	if(isdigit(lastChar) || lastChar == '.') {
+		string numberStr;
+
+		do {
+			numberStr += lastChar;
+			lastChar = getchar();
+		} while(isdigit(lastChar) || lastChar == '.');
+
+		numVal = strtod(numberStr.c_str(), 0);
+		return tok_number;
+	}
+
 	return 0;
 }
