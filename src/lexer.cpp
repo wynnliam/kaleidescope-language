@@ -21,7 +21,6 @@ int getToken() {
 	// whitespace.
 
 	// Identifier regex is [a-zA-z][a-zA-Z0-9]*
-	// TODO: Fix this! Will read "1.00.012..1412414" as a number.
 	if(isalpha(lastChar)) {
 		identifier = lastChar;
 
@@ -35,6 +34,7 @@ int getToken() {
 	}
 
 	// Digit regex is [0-9.]+
+	// TODO: Fix this! Will read "1.00.012..1412414" as a number.
 	if(isdigit(lastChar) || lastChar == '.') {
 		string numberStr;
 
@@ -53,10 +53,19 @@ int getToken() {
 		// Keep reading until we hit the end of the line.
 		} while(lastChar != EOF && lastChar != '\n' && lastChar != '\r');
 
-		// If we are not at the end of the file, start the process over again
+		// If we are not at the end of the file, start the process over again.
+		// Otherwise, it will be EOF, inwhich the next case will handle that.
 		if(lastChar != EOF)
 			return getToken();
 	}
+
+	if(lastChar == EOF)
+		return tok_eof;
+
+	// Returns an unknown char.
+	int currChar = lastChar;
+	lastChar = getchar();
+	return currChar;
 
 	return 0;
 }
