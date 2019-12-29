@@ -31,6 +31,8 @@ int getToken() {
 			return tok_def;
 		else if(identifier == "extern")
 			return tok_extern;
+		else
+			return tok_identifier;
 	}
 
 	// Digit regex is [0-9.]+
