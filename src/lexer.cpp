@@ -21,6 +21,7 @@ int getToken() {
 	// whitespace.
 
 	// Identifier regex is [a-zA-z][a-zA-Z0-9]*
+	// TODO: Fix this! Will read "1.00.012..1412414" as a number.
 	if(isalpha(lastChar)) {
 		identifier = lastChar;
 
