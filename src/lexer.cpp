@@ -47,5 +47,16 @@ int getToken() {
 		return tok_number;
 	}
 
+	if(lastChar == '#') {
+		do {
+			lastChar = getchar();
+		// Keep reading until we hit the end of the line.
+		} while(lastChar != EOF && lastChar != '\n' && lastChar != '\r');
+
+		// If we are not at the end of the file, start the process over again
+		if(lastChar != EOF)
+			return getToken();
+	}
+
 	return 0;
 }
