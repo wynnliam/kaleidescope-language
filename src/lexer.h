@@ -17,8 +17,4 @@ enum Token {
 	tok_number = -5,
 };
 
-// Filled in if the token we read is an identifier.
-static std::string identifier;
-// Filled in if the token is a number. All numbers are
-// doubles in this language.
-static double numVal;
+int getToken();
