@@ -1,4 +1,12 @@
-class ExpressionAbstractSyntaxtTree {
+class ExpressionAbstractSyntaxTree {
 	public:
-		virtual ~ExpressionAbstractSyntaxtTree();
+		virtual ~ExpressionAbstractSyntaxTree();
+};
+
+class NumberExpressionAbstractSyntaxTree : public ExpressionAbstractSyntaxTree {
+	public:
+		NumberExpressionAbstractSyntaxTree(double val) : value(val) { }
+
+	private:
+		double value;
 };
