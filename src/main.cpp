@@ -7,8 +7,9 @@ using namespace std;
 int main() {
 	cout << "Welcome to the Kaleidescope Language!" << endl;
 
-	NumberExpressionAbstractSyntaxTree num(10);
-	VariableExpressionAbstractSyntaxTree var("awdaw");
+	unique_ptr<NumberExpressionAbstractSyntaxTree> num1 = make_unique<NumberExpressionAbstractSyntaxTree>(10);
+	unique_ptr<NumberExpressionAbstractSyntaxTree> num2 = make_unique<NumberExpressionAbstractSyntaxTree>(20);
+	BinaryExpressionAbstractSyntaxTree bin('+', std::move(num1), std::move(num2));
 
 	while(1) {
 		cout << "> ";

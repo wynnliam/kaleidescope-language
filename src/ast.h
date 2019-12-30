@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <memory>
 
 class ExpressionAbstractSyntaxTree {
 	public:
@@ -20,4 +21,16 @@ class VariableExpressionAbstractSyntaxTree : public ExpressionAbstractSyntaxTree
 	
 	private:
 		std::string name;
+};
+
+class BinaryExpressionAbstractSyntaxTree : public ExpressionAbstractSyntaxTree {
+	public:
+		BinaryExpressionAbstractSyntaxTree(const char op,
+										   std::unique_ptr<ExpressionAbstractSyntaxTree> lhs,
+										   std::unique_ptr<ExpressionAbstractSyntaxTree> rhs) :
+										   op(op), lhs(std::move(lhs)), rhs(std::move(rhs)) { }
+
+	private:
+		char op;
+		std::unique_ptr<ExpressionAbstractSyntaxTree> lhs, rhs;
 };
