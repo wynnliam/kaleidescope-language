@@ -44,3 +44,24 @@ class CallExpressionAbstractSyntaxTree : public ExpressionAbstractSyntaxTree {
 		std::string callee;
 		std::vector<std::unique_ptr<ExpressionAbstractSyntaxTree>> args;
 };
+
+class PrototypeExpressionAbstractSyntaxTree : public ExpressionAbstractSyntaxTree {
+	public:
+		PrototypeExpressionAbstractSyntaxTree(const std::string& name, std::vector<std::string> args) :
+											  name(name), args(std::move(args)) { }
+
+	private:
+		std::string name;
+		std::vector<std::string> args;
+};
+
+class FunctionExpressionAbstractSyntaxTree : public ExpressionAbstractSyntaxTree {
+	public:
+		FunctionExpressionAbstractSyntaxTree(std::unique_ptr<PrototypeExpressionAbstractSyntaxTree> prototype,
+											 std::unique_ptr<ExpressionAbstractSyntaxTree> body) :
+											prototype(std::move(prototype)), body(std::move(body)) { }
+
+	private:
+		std::unique_ptr<PrototypeExpressionAbstractSyntaxTree> prototype;
+		std::unique_ptr<ExpressionAbstractSyntaxTree> body;
+}; 
