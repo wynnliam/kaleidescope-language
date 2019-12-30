@@ -64,7 +64,10 @@ class FunctionExpressionAbstractSyntaxTree : public ExpressionAbstractSyntaxTree
 	private:
 		std::unique_ptr<PrototypeExpressionAbstractSyntaxTree> prototype;
 		std::unique_ptr<ExpressionAbstractSyntaxTree> body;
-}; 
+};
 
+std::unique_ptr<ExpressionAbstractSyntaxTree> parseNumberExpression();
+
+// Helper functions
 int getNextToken();
 void logError(const char* err);
