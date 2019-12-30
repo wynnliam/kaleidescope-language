@@ -65,3 +65,5 @@ class FunctionExpressionAbstractSyntaxTree : public ExpressionAbstractSyntaxTree
 		std::unique_ptr<PrototypeExpressionAbstractSyntaxTree> prototype;
 		std::unique_ptr<ExpressionAbstractSyntaxTree> body;
 }; 
+
+int getNextToken();
