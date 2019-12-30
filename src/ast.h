@@ -67,3 +67,4 @@ class FunctionExpressionAbstractSyntaxTree : public ExpressionAbstractSyntaxTree
 }; 
 
 int getNextToken();
+void logError(const char* err);
