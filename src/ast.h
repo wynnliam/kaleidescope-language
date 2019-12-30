@@ -34,3 +34,13 @@ class BinaryExpressionAbstractSyntaxTree : public ExpressionAbstractSyntaxTree {
 		char op;
 		std::unique_ptr<ExpressionAbstractSyntaxTree> lhs, rhs;
 };
+
+class CallExpressionAbstractSyntaxTree : public ExpressionAbstractSyntaxTree {
+	public:
+		CallExpressionAbstractSyntaxTree(const std::string& callee,
+										 std::vector<std::unique_ptr<ExpressionAbstractSyntaxTree>> args) :
+										 callee(callee), args(std::move(args)) { }
+	private:
+		std::string callee;
+		std::vector<std::unique_ptr<ExpressionAbstractSyntaxTree>> args;
+};
