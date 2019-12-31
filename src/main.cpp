@@ -184,6 +184,8 @@ unique_ptr<ExpressionAbstractSyntaxTree> parseExpression() {
 unique_ptr<ExpressionAbstractSyntaxTree> parseParanthesisExpression() {
 	getNextToken(); // Eat the '('
 
+	// parseExpression could call this function. Thus, it shows
+	// how we can handle recursive grammars.
 	auto result = parseExpression();
 	if(!result)
 		return nullptr;
@@ -198,6 +200,44 @@ unique_ptr<ExpressionAbstractSyntaxTree> parseParanthesisExpression() {
 	return result;
 }
 
+// Handles expressions that reference a variable identifier or
+// an expression of the form '( expression ... )'
+unique_ptr<ExpressionAbstractSyntaxTree> parseIdentifierExpression() {
+	string idName = identifier;
+
+	getNextToken(); // Eat the identifier.
+
+	// Simple variable reference
+	if(currToken != '(')
+		return make_unique<VariableExpressionAbstractSyntaxTree>(idName);
+
+	getNextToken(); // Eats the '('
+
+	vector<unique_ptr<ExpressionAbstractSyntaxTree>> args;
+	if(currToken != ')') {
+		while(1) {
+			if(auto arg = parseExpression())
+				args.push_back(move(arg));
+			else
+				return nullptr;
+
+			if(currToken == ')')
+				break;
+
+			if(currToken != ',') {
+				logError("Expected ')' or ',' in argument list");
+				return nullptr;
+			}
+
+			getNextToken();
+		}
+	}
+
+	// Eat the ')'
+	getNextToken();
+
+	return make_unique<CallExpressionAbstractSyntaxTree>(idName, std::move(args));
+}
 
 /* EXPRESSION AST IMPLEMENTATIONS */
 ExpressionAbstractSyntaxTree::~ExpressionAbstractSyntaxTree() {
