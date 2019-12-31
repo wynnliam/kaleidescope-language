@@ -168,10 +168,36 @@ void logError(const char* err) {
 		fprintf(stderr, "LogError: %s\n", err);
 }
 
+// Parses a number expression, advances lexer by a token, and returns resulting
+// number AST
 unique_ptr<ExpressionAbstractSyntaxTree> parseNumberExpression() {
-	//auto result = make_unique<NumberExpressionAbstractSyntaxTree>(
+	auto result = make_unique<NumberExpressionAbstractSyntaxTree>(numVal);
+	getNextToken(); // Consume the number
+	return std::move(result);
+}
+
+unique_ptr<ExpressionAbstractSyntaxTree> parseExpression() {
 	return nullptr;
 }
+
+// Parses expression of form '( EXPR )'
+unique_ptr<ExpressionAbstractSyntaxTree> parseParanthesisExpression() {
+	getNextToken(); // Eat the '('
+
+	auto result = parseExpression();
+	if(!result)
+		return nullptr;
+
+	if(currToken != ')') {
+		logError("Expected ')'");
+		return nullptr;
+	}
+
+	getNextToken(); // Consume the ')'
+
+	return result;
+}
+
 
 /* EXPRESSION AST IMPLEMENTATIONS */
 ExpressionAbstractSyntaxTree::~ExpressionAbstractSyntaxTree() {
