@@ -239,6 +239,21 @@ unique_ptr<ExpressionAbstractSyntaxTree> parseIdentifierExpression() {
 	return make_unique<CallExpressionAbstractSyntaxTree>(idName, std::move(args));
 }
 
+// Primary expressions are either identifier expressions, number expressions, or parenthesis expressions.
+unique_ptr<ExpressionAbstractSyntaxTree> parsePrimary() {
+	switch(currToken) {
+		case tok_identifier:
+			return parseIdentifierExpression();
+		case tok_number:
+			return parseNumberExpression();
+		case '(':
+			return parseParanthesisExpression();
+		default:
+			logError("Unknown token when expecting expression");
+			return nullptr;
+	}
+}
+
 /* EXPRESSION AST IMPLEMENTATIONS */
 ExpressionAbstractSyntaxTree::~ExpressionAbstractSyntaxTree() {
 }
