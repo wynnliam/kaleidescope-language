@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <cctype>
 #include <iostream>
+#include <map>
 
 using namespace std;
 
@@ -95,6 +96,8 @@ static string identifier;
 static double numVal;
 
 static int currToken;
+
+static map<char, int> binOpPrecedence;
 
 int getToken() {
 	static int lastChar = ' ';
@@ -260,6 +263,12 @@ ExpressionAbstractSyntaxTree::~ExpressionAbstractSyntaxTree() {
 
 int main() {
 	cout << "Welcome to the Kaleidescope Language!" << endl;
+
+	// Set the operator precedence
+	binOpPrecedence['<'] = 1;
+	binOpPrecedence['+'] = 2;
+	binOpPrecedence['-'] = 2;
+	binOpPrecedence['*'] = 3;
 
 	while(1) {
 		cout << "> ";
