@@ -182,18 +182,19 @@ void logError(const char* err) {
 		fprintf(stderr, "LogError: %s\n", err);
 }
 
+unique_ptr<ExpressionAbstractSyntaxTree> parseNumberExpression();
+unique_ptr<ExpressionAbstractSyntaxTree> parseBinaryOpRHS(int expPrecedence, unique_ptr<ExpressionAbstractSyntaxTree> lhs);
+unique_ptr<ExpressionAbstractSyntaxTree> parseParanthesisExpression();
+unique_ptr<ExpressionAbstractSyntaxTree> parseIdentifierExpression();
+unique_ptr<ExpressionAbstractSyntaxTree> parsePrimary();
+unique_ptr<ExpressionAbstractSyntaxTree> parseExpression();
+
 // Parses a number expression, advances lexer by a token, and returns resulting
 // number AST
 unique_ptr<ExpressionAbstractSyntaxTree> parseNumberExpression() {
 	auto result = make_unique<NumberExpressionAbstractSyntaxTree>(numVal);
 	getNextToken(); // Consume the number
 	return std::move(result);
-}
-
-// Parses expressions of the form 'primary binOps' where
-// binOps is zero or more binary operator expressions.
-unique_ptr<ExpressionAbstractSyntaxTree> parseExpression() {
-	return NULL;
 }
 
 unique_ptr<ExpressionAbstractSyntaxTree> parseBinaryOpRHS(int expPrecedence, unique_ptr<ExpressionAbstractSyntaxTree> lhs) {
@@ -272,6 +273,17 @@ unique_ptr<ExpressionAbstractSyntaxTree> parsePrimary() {
 			logError("Unknown token when expecting expression");
 			return nullptr;
 	}
+}
+
+// Parses expressions of the form 'primary binOps' where
+// binOps is zero or more binary operator expressions.
+unique_ptr<ExpressionAbstractSyntaxTree> parseExpression() {
+	auto lhs = parsePrimary();
+
+	if(!lhs)
+		return nullptr;
+
+	return parseBinaryOpRHS(0, move(lhs));
 }
 
 /* EXPRESSION AST IMPLEMENTATIONS */
