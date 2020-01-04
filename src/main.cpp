@@ -197,10 +197,6 @@ unique_ptr<ExpressionAbstractSyntaxTree> parseNumberExpression() {
 	return std::move(result);
 }
 
-unique_ptr<ExpressionAbstractSyntaxTree> parseBinaryOpRHS(int expPrecedence, unique_ptr<ExpressionAbstractSyntaxTree> lhs) {
-	return NULL;
-}
-
 // Parses expression of form '( EXPR )'
 unique_ptr<ExpressionAbstractSyntaxTree> parseParanthesisExpression() {
 	getNextToken(); // Eat the '('
@@ -284,6 +280,33 @@ unique_ptr<ExpressionAbstractSyntaxTree> parseExpression() {
 		return nullptr;
 
 	return parseBinaryOpRHS(0, move(lhs));
+}
+
+// Parses expressions of the form (operator primaryExpression)*
+unique_ptr<ExpressionAbstractSyntaxTree> parseBinaryOpRHS(int expPrecedence, unique_ptr<ExpressionAbstractSyntaxTree> lhs) {
+	int tokPrecedence;
+	int binOp;
+
+	while(1) {
+		tokPrecedence = getTokenPrecedence();
+
+		// If we're dealing with a binary operation at least as tight as the current binop, then consume it.
+		// Otherwise we are done.
+		if(tokPrecedence < expPrecedence)
+			return lhs;
+
+		// We know it's a binary operation, so save the operation
+		// and get the next token.
+		binOp = currToken;
+		getNextToken();
+
+		// Parse the binary expression after the operator.
+		auto rhs = parsePrimary();
+		if(!rhs)
+			return nullptr;
+
+		// TODO: Finish me!
+	}
 }
 
 /* EXPRESSION AST IMPLEMENTATIONS */
