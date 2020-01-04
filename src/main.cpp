@@ -308,7 +308,9 @@ unique_ptr<ExpressionAbstractSyntaxTree> parseBinaryOpRHS(int expPrecedence, uni
 
 		nextPrecedence = getTokenPrecedence();
 		if(tokPrecedence < nextPrecedence) {
-			// TODO: Body
+			rhs = parseBinaryOpRHS(tokPrecedence + 1, move(rhs));
+			if(!rhs)
+				return nullptr;
 		}
 
 		// Note: may need llvm::make_unique here.
