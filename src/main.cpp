@@ -171,7 +171,7 @@ int getTokenPrecedence() {
 		return -1;
 
 	int precedence = binOpPrecedence[currToken];
-	if(precedence <= 0;
+	if(precedence <= 0)
 		return -1;
 
 	return precedence;
@@ -190,8 +190,14 @@ unique_ptr<ExpressionAbstractSyntaxTree> parseNumberExpression() {
 	return std::move(result);
 }
 
+// Parses expressions of the form 'primary binOps' where
+// binOps is zero or more binary operator expressions.
 unique_ptr<ExpressionAbstractSyntaxTree> parseExpression() {
-	return nullptr;
+	return NULL;
+}
+
+unique_ptr<ExpressionAbstractSyntaxTree> parseBinaryOpRHS(int expPrecedence, unique_ptr<ExpressionAbstractSyntaxTree> lhs) {
+	return NULL;
 }
 
 // Parses expression of form '( EXPR )'
