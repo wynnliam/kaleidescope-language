@@ -166,6 +166,17 @@ int getNextToken() {
 	return currToken = getToken();
 }
 
+int getTokenPrecedence() {
+	if(!isascii(currToken))
+		return -1;
+
+	int precedence = binOpPrecedence[currToken];
+	if(precedence <= 0;
+		return -1;
+
+	return precedence;
+}
+
 void logError(const char* err) {
 	if(err)
 		fprintf(stderr, "LogError: %s\n", err);
