@@ -285,6 +285,7 @@ unique_ptr<ExpressionAbstractSyntaxTree> parseExpression() {
 // Parses expressions of the form (operator primaryExpression)*
 unique_ptr<ExpressionAbstractSyntaxTree> parseBinaryOpRHS(int expPrecedence, unique_ptr<ExpressionAbstractSyntaxTree> lhs) {
 	int tokPrecedence;
+	int nextPrecedence;
 	int binOp;
 
 	while(1) {
@@ -305,7 +306,13 @@ unique_ptr<ExpressionAbstractSyntaxTree> parseBinaryOpRHS(int expPrecedence, uni
 		if(!rhs)
 			return nullptr;
 
-		// TODO: Finish me!
+		nextPrecedence = getTokenPrecedence();
+		if(tokPrecedence < nextPrecedence) {
+			// TODO: Body
+		}
+
+		// Note: may need llvm::make_unique here.
+		lhs = std::make_unique<BinaryExpressionAbstractSyntaxTree>(binOp, move(lhs), move(rhs));
 	}
 }
 
